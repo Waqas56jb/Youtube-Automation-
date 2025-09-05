@@ -5,6 +5,8 @@ __pycache__/
 *.so
 .Python
 build/
+calander.json
+client_sectets.json
 develop-eggs/
 dist/
 downloads/
