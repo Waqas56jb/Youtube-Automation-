@@ -1,0 +1,13 @@
+# Replace app.mydomain.com with your domain
+app.mydomain.com {
+    encode gzip
+
+    # Basic auth: generate a hash on the VPS with:
+    #   caddy hash-password --plaintext "YourStrongPassword"
+    basicauth * {
+        lucy $2a$14$replace_with_hash
+    }
+
+    # Backend FastAPI service exposed on 8000
+    reverse_proxy localhost:8000
+}
