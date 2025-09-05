@@ -1,0 +1,27 @@
+# Replace app.mydomain.com with your domain
+app.mydomain.com {
+    encode gzip
+
+    # Basic auth: generate hash with `caddy hash-password --plaintext "YourStrongPassword"`
+    basicauth * {
+        lucy $2a$14$replace_with_hash
+    }
+
+    # Backend only (FastAPI on port 8000)
+    reverse_proxy localhost:8000
+}
+
+# If you also run a Next.js frontend on :3000 and want API under /api
+# app.mydomain.com {
+#     encode gzip
+#     basicauth * {
+#         lucy $2a$14$replace_with_hash
+#     }
+#     @api path /api* /docs* /openapi.json
+#     handle @api {
+#         reverse_proxy localhost:8000
+#     }
+#     handle {
+#         reverse_proxy localhost:3000
+#     }
+# }
