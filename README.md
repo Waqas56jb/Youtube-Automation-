@@ -301,3 +301,109 @@ If you encounter any issues:
 **Ready to revolutionize your video content workflow?** 🚀
 
 Start generating professional captions and uploading to YouTube with just a few clicks!
+
+---
+
+## 📚 Comprehensive Setup & Workflows
+
+### Environment Variables (Backend)
+Create `.env` in the project root (values shown are examples/placeholders):
+```
+# Gemini / Google Generative AI
+GEMINI_API_KEY=your-gemini-or-google-api-key
+GOOGLE_API_KEY= # optional if GEMINI_API_KEY is set
+GEMINI_MODEL=gemini-1.5-flash
+
+# Whisper (faster-whisper)
+WHISPER_MODEL=base   # tiny|base|small|medium|large-v2
+WHISPER_DEVICE=auto  # auto|cpu|cuda
+WHISPER_COMPUTE_TYPE=auto  # auto|int8|int8_float16|float16
+WHISPER_CPU_THREADS=0      # 0 lets library decide
+
+# Server
+HOST=0.0.0.0
+PORT=8000
+```
+
+Required local files:
+- `client_sectets.json` in project root for YouTube OAuth (note the filename used by code).
+
+### Local Development Workflow
+- Backend: `python start_backend.py` then open `http://localhost:8000/docs`.
+- Frontend (Next.js UI):
+  - Install Node 18+: `npm install`
+  - Dev server: `npm run dev` at `http://localhost:3000`
+- Media storage: uploaded and trimmed files are saved under `storage/YYYY/MM/DD/...`.
+
+### Typical Daily Flow
+1) Upload raw video via POST `/video/upload` or the UI.
+2) Create clips with POST `/video/trim` (batch JSON supported).
+3) Generate title + caption + hashtags via POST `/video/caption`.
+4) Clean old orphaned caption files via POST `/api/cleanup` (optional).
+5) Upload to YouTube via POST `/video/publish-youtube` or `/api/youtube/upload`.
+6) Track history via `GET /api/youtube/uploads`.
+
+### Transcripts & Stories
+- Transcribe media or documents via:
+  - `POST /transcript/file` (audio/video or documents: PDF, DOCX, TXT, SRT/VTT, PPTX, CSV)
+  - `POST /transcript/manual` (paste text)
+- Turn transcripts into a story via:
+  - `POST /story/generate` with `format` one of `lucy|narrative|business|motivational`
+
+### API Reference (Full)
+
+Backend mounts these routers:
+- Root and health: `GET /` and `GET /api/health`
+- Assistant chat: `POST /chat`
+- App routers: `/transcript/*`, `/story/*`
+- Classic API: `/api/videos`, `/api/captions`, `/api/youtube`, `/api/cleanup`
+- Frontend file ops: `/video/*`
+
+Key endpoints (beyond those listed above):
+- Transcript
+  - `GET /transcript/health`
+  - `POST /transcript/file`
+  - `POST /transcript/manual`
+- Story
+  - `POST /story/generate`
+  - `POST /chat` (app chat)
+- Video (frontend integration)
+  - `POST /video/upload`
+  - `POST /video/trim`
+  - `GET /video/clips-by-date`
+  - `POST /video/delete`
+  - `POST /video/caption`
+  - `POST /video/publish-youtube`
+  - `GET /video/media/{path}`
+
+### Git LFS Setup (Large Media)
+This project tracks binaries with Git LFS. If you encounter push errors for large files, ensure LFS is set up.
+```
+git lfs install --local
+```
+Ensure `.gitattributes` includes typical media patterns (already added in this repo). For existing repos with history containing large files, migrate them:
+```
+git lfs migrate import --include="*.mp4,*.mov,*.mkv,*.webm,*.wav,*.mp3,*.aac,*.flac,*.avi,*.wmv,*.zip,*.7z,*.tar,*.gz,*.bz2" --everything
+```
+Then push:
+```
+git push -u origin main --force-with-lease
+```
+
+### Docker & Deployment
+
+Run locally with Docker Compose:
+```
+docker-compose up --build
+```
+
+Deploy to Fly.io (example):
+- Backend uses `Dockerfile` and `fly.toml`
+- Frontend uses `Dockerfile.frontend` and `fly.frontend.toml`
+- Provision apps, set secrets (e.g., `GEMINI_API_KEY`) and deploy.
+
+### Common Issues
+- ffmpeg not found: install ffmpeg and restart the backend.
+- Missing GEMINI_API_KEY: set `.env` and restart; `/chat` and story endpoints require it.
+- YouTube OAuth: ensure `client_sectets.json` exists; follow on-screen auth flow when uploading.
+- Large file push blocked: use the LFS migration commands above, then force-with-lease push.
