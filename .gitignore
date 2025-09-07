@@ -13,6 +13,7 @@ downloads/
 eggs/
 .eggs/
 client_secrets.json
+calander.json
 lib/
 lib64/
 parts/
