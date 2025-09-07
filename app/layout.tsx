@@ -2,6 +2,8 @@ import './globals.css'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
+
+  
   title: 'Manu AI',
   description: 'AI toolkit UI',
 }
@@ -9,18 +11,18 @@ export const metadata: Metadata = {
 import type { ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 
+const DynamicChatFab = dynamic(() => import('../components/ChatFab'), { ssr: false })
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
         {children}
         {/* Client chat widget */}
-        {DynamicChatFab ? <DynamicChatFab /> : null}
+        <DynamicChatFab />
       </body>
     </html>
   )
 }
-
-const DynamicChatFab = dynamic(() => import('../components/ChatFab'), { ssr: false })
 
 

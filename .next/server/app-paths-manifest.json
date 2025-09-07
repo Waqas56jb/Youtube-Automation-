@@ -1,4 +1,8 @@
 {
   "/page": "app/page.js",
+  "/story-generate/page": "app/story-generate/page.js",
+  "/schedule-post/page": "app/schedule-post/page.js",
+  "/analysis/page": "app/analysis/page.js",
+  "/video-trim/page": "app/video-trim/page.js",
   "/transcript/page": "app/transcript/page.js"
 }

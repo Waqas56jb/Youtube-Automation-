@@ -218,7 +218,7 @@ async def publish_to_youtube(request: Request):
         # Combine description with hashtags
         caption_for_upload = f"{description}\n\n{hashtags}".strip()
         
-        # Use actual YouTubeService (OAuth flow via client_sectets.json)
+        # Use actual YouTubeService (OAuth flow via client_secrets.json)
         yt_service = YouTubeService(Database())
         result = yt_service.upload_video(str(full_path), video_info, caption_for_upload)
         if not result.get("success"):

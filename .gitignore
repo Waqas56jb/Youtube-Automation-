@@ -12,6 +12,7 @@ dist/
 downloads/
 eggs/
 .eggs/
+client_secrets.json
 lib/
 lib64/
 parts/

@@ -37,13 +37,13 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(videos.router)
-app.include_router(captions.router)
-app.include_router(youtube.router)
-app.include_router(utils.router)
-app.include_router(video_management.router)
-app.include_router(app_transcript.router)
-app.include_router(app_story.router)
+app.include_router(videos.router)  # Already has /api/videos prefix
+app.include_router(captions.router)  # Already has /api/captions prefix
+app.include_router(youtube.router)  # Already has /api/youtube prefix
+app.include_router(utils.router)  # Already has /api prefix
+app.include_router(video_management.router)  # Already has /video prefix
+app.include_router(app_transcript.router, prefix="/api/transcript")
+app.include_router(app_story.router, prefix="/api")
 
 # Warm-up: initialize Whisper on startup to avoid first-request lag
 @app.on_event("startup")

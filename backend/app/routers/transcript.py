@@ -14,7 +14,7 @@ import os
 
 
 router = APIRouter(tags=["transcript"])
-@router.get("/transcript/health")
+@router.get("/health")
 async def transcript_health():
     """Verify Whisper is available and can be initialized."""
     try:
@@ -27,7 +27,7 @@ async def transcript_health():
 
 
 
-@router.post("/transcript/file", response_model=TranscriptResponse)
+@router.post("/upload", response_model=TranscriptResponse)
 async def transcript_file(file: UploadFile = File(...)):
     if not file.filename:
         raise HTTPException(status_code=400, detail="Filename is required")
@@ -72,7 +72,7 @@ async def transcript_file(file: UploadFile = File(...)):
             pass
 
 
-@router.post("/transcript/manual", response_model=TranscriptResponse)
+@router.post("/manual", response_model=TranscriptResponse)
 async def transcript_manual(text: str = Form(...)):
     paragraphs = [p.strip() for p in text.splitlines() if p.strip()]
     segments = [TranscriptSegment(text=p) for p in paragraphs] or [TranscriptSegment(text=text.strip())]

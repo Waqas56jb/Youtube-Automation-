@@ -1,4 +1,4 @@
-// File: D:\Lucy Doig\app\layout.tsx
+// File: C:\Users\Owner\Desktop\Youtube-Automation-\app\layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

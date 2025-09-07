@@ -32,6 +32,19 @@ async def youtube_auth_status():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.post("/auth/initiate")
+async def youtube_auth_initiate():
+    """Initiate YouTube authentication flow"""
+    try:
+        # This will trigger the OAuth flow
+        youtube = youtube_service._authenticate_youtube()
+        return {
+            "success": True,
+            "message": "Authentication completed successfully"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.post("/upload")
 async def youtube_upload(request: YouTubeUploadRequest):
     """Upload video to YouTube"""
