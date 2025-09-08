@@ -1,4 +1,4 @@
-// File: C:\Users\Owner\Desktop\Youtube-Automation-\app\transcript\page.tsx
+// File: D:\Lucy Doig\Youtube-Automation-\app\transcript\page.tsx
 import * as entry from '../../../../app/transcript/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

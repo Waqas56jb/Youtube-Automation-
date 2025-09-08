@@ -1,4 +1,4 @@
-// File: C:\Users\Owner\Desktop\Youtube-Automation-\app\story-generate\page.tsx
+// File: D:\Lucy Doig\Youtube-Automation-\app\story-generate\page.tsx
 import * as entry from '../../../../app/story-generate/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
